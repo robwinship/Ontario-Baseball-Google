@@ -12,7 +12,7 @@ Static search UI for content indexed from:
 3. Optional local ondeck index build:
    - Copy `.env.example` to `.env`
    - Optional: run `npm run auth:import-curl` and paste DevTools "Copy as cURL"
-   - Set `ONDECK_COOKIE` or `ONDECK_BEARER_TOKEN`
+   - Set `ONDECK_COOKIE` or `ONDECK_BEARER_TOKEN` (or `ONDECK_MOBILECOACH_TOKEN` + `ONDECK_APP_KEY`)
    - Validate auth with `npm run auth:ondeck`
    - Run `npm run crawl:ondeck`
 4. Merge source indexes:

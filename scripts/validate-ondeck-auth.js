@@ -1,31 +1,10 @@
 import dotenv from "dotenv";
+import { buildOndeckAuthHeaders } from "./lib/ondeck-auth.js";
 
 dotenv.config();
 
 const BASE_URL = process.env.ONDECK_BASE_URL || "https://ondeck.baseballontario.com";
-
-function getAuthHeaders() {
-  const cookie = process.env.ONDECK_COOKIE;
-  const token = process.env.ONDECK_BEARER_TOKEN;
-
-  if (!cookie && !token) {
-    throw new Error("Missing auth values. Set ONDECK_COOKIE or ONDECK_BEARER_TOKEN in .env");
-  }
-
-  const headers = {
-    "user-agent": "OBA-SearchBot/0.1 (+local auth validator)",
-  };
-
-  if (cookie) {
-    headers.cookie = cookie;
-  }
-
-  if (token) {
-    headers.authorization = `Bearer ${token}`;
-  }
-
-  return headers;
-}
+const USER_AGENT = "OBA-SearchBot/0.1 (+local auth validator)";
 
 function looksLikeLoginRedirect(url) {
   if (!url) {
@@ -36,7 +15,10 @@ function looksLikeLoginRedirect(url) {
 }
 
 async function validate() {
-  const headers = getAuthHeaders();
+  const headers = {
+    "user-agent": USER_AGENT,
+    ...(await buildOndeckAuthHeaders(USER_AGENT)),
+  };
   const response = await fetch(BASE_URL, {
     headers,
     redirect: "follow",

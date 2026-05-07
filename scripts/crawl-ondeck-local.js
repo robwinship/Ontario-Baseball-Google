@@ -3,6 +3,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import dotenv from "dotenv";
 import * as cheerio from "cheerio";
+import { buildOndeckAuthHeaders } from "./lib/ondeck-auth.js";
 
 dotenv.config();
 
@@ -21,24 +22,6 @@ const REPORT_PATH = path.join(rootDir, "data", "ondeck-report.json");
 const MAX_PAGES = Number(process.env.ONDECK_MAX_PAGES || 200);
 const MAX_DEPTH = Number(process.env.ONDECK_MAX_DEPTH || 3);
 const USER_AGENT = "OBA-SearchBot/0.1 (+local authenticated index generator)";
-
-function getAuthHeaders() {
-  const cookie = process.env.ONDECK_COOKIE;
-  const token = process.env.ONDECK_BEARER_TOKEN;
-
-  if (!cookie && !token) {
-    throw new Error("Set ONDECK_COOKIE or ONDECK_BEARER_TOKEN in local .env before running crawl:ondeck.");
-  }
-
-  const headers = { "user-agent": USER_AGENT };
-  if (cookie) {
-    headers.cookie = cookie;
-  }
-  if (token) {
-    headers.authorization = `Bearer ${token}`;
-  }
-  return headers;
-}
 
 function normalizeUrl(rawUrl) {
   try {
@@ -91,7 +74,10 @@ function keywordsFromText(text) {
 }
 
 async function crawlOndeck() {
-  const headers = getAuthHeaders();
+  const headers = {
+    "user-agent": USER_AGENT,
+    ...(await buildOndeckAuthHeaders(USER_AGENT)),
+  };
   const queue = [{ url: BASE_URL, depth: 0 }];
   const visited = new Set();
   const docs = [];

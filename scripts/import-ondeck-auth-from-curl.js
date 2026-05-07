@@ -3,6 +3,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import readline from "node:readline/promises";
 import { stdin as input, stdout as output } from "node:process";
+import { extractMobileCoachPayload } from "./lib/ondeck-auth.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -18,6 +19,11 @@ function extractHeaderValue(curlText, headerName) {
 function extractBearerToken(authorizationValue) {
   const match = authorizationValue.match(/^Bearer\s+(.+)$/i);
   return match ? match[1].trim() : "";
+}
+
+function extractCurlUrl(curlText) {
+  const match = curlText.match(/^\s*curl\s+['\"]([^'\"]+)['\"]/im);
+  return match ? match[1] : "";
 }
 
 function upsertEnvLine(envText, key, value) {
@@ -84,9 +90,13 @@ async function run() {
   const cookieValue = extractHeaderValue(curlText, "cookie");
   const authHeaderValue = extractHeaderValue(curlText, "authorization");
   const bearerToken = extractBearerToken(authHeaderValue);
+  const payload = extractMobileCoachPayload(curlText);
+  const mobileCoachToken = typeof payload.token === "string" ? payload.token.trim() : "";
+  const appKey = typeof payload.appKey === "string" ? payload.appKey.trim() : "";
+  const curlUrl = extractCurlUrl(curlText);
 
-  if (!cookieValue && !bearerToken) {
-    throw new Error("No Cookie or Bearer Authorization header found in cURL text.");
+  if (!cookieValue && !bearerToken && !mobileCoachToken) {
+    throw new Error("No Cookie, Bearer Authorization, or token payload found in cURL text.");
   }
 
   let envText = await fs.readFile(envPath, "utf8");
@@ -99,9 +109,27 @@ async function run() {
     envText = upsertEnvLine(envText, "ONDECK_BEARER_TOKEN", bearerToken);
   }
 
+  if (mobileCoachToken) {
+    envText = upsertEnvLine(envText, "ONDECK_MOBILECOACH_TOKEN", mobileCoachToken);
+  }
+
+  if (appKey) {
+    envText = upsertEnvLine(envText, "ONDECK_APP_KEY", appKey);
+  }
+
+  if (curlUrl && curlUrl.toLowerCase().includes("api.mobilecoach.org")) {
+    envText = upsertEnvLine(envText, "ONDECK_AUTH_API_URL", curlUrl);
+  }
+
   await fs.writeFile(envPath, envText, "utf8");
 
-  const updated = [cookieValue ? "ONDECK_COOKIE" : null, bearerToken ? "ONDECK_BEARER_TOKEN" : null]
+  const updated = [
+    cookieValue ? "ONDECK_COOKIE" : null,
+    bearerToken ? "ONDECK_BEARER_TOKEN" : null,
+    mobileCoachToken ? "ONDECK_MOBILECOACH_TOKEN" : null,
+    appKey ? "ONDECK_APP_KEY" : null,
+    curlUrl && curlUrl.toLowerCase().includes("api.mobilecoach.org") ? "ONDECK_AUTH_API_URL" : null,
+  ]
     .filter(Boolean)
     .join(", ");
 

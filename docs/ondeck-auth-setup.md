@@ -15,6 +15,9 @@ Use this guide to get local-only auth values for `npm run crawl:ondeck`.
 
 You can set both. The crawler will send both headers.
 
+If your copied request is `https://api.mobilecoach.org/api/auth` with a JSON body like
+`{"token":"...","appKey":"BO"}`, that is also supported by this project.
+
 ## 2) Option A: Get session cookie from browser (most common)
 1. Sign into `https://ondeck.baseballontario.com` in your browser.
 2. Open DevTools (F12) -> Network.
@@ -55,6 +58,11 @@ If invalid:
 4. Paste the full cURL text and press Enter on an empty line.
 5. The script updates local `.env` with detected auth keys.
 6. Run `npm run auth:ondeck` to confirm validity.
+
+The importer can read all of these cURL patterns:
+- Request header `Cookie: ...`
+- Request header `Authorization: Bearer ...`
+- JSON payload token flow: `--data-raw '{"token":"...","appKey":"..."}'`
 
 ## 5) Crawl
 Run:
