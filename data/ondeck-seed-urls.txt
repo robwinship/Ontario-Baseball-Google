@@ -1,3 +1,14 @@
 # Optional manual seed URLs for ondeck SPA routes.
 # One URL per line. These are queued at depth 0 during crawl:ondeck.
 https://ondeck.baseballontario.com/page/784/arm-care/16475/arm-care-pitch-count-rules-faq
+https://www.playoba.ca/recognition-policy
+https://ondeck.baseballontario.com/page/5942/rep-rule-book/20363/rep-division-playing-rules
+https://ondeck.baseballontario.com/page/5942/rep-rule-book/20361/rep-division-procedures
+https://ondeck.baseballontario.com/page/4324/select-rule-book/20365/select-division-playing-rules-and-provincial-tournament-rules
+https://ondeck.baseballontario.com/page/4324/select-rule-book/20364/select-division-procedures
+https://ondeck.baseballontario.com/page/5941/oba-procedures-playing-rules/20369/oba-procedures-and-playing-rules
+https://ondeck.baseballontario.com/page/5937/rep-division-procedures-playing-rules
+https://ondeck.baseballontario.com/page/5938/select-division-procedures-playing-rules
+https://ondeck.baseballontario.com/page/3013/official-baseball-rules
+https://ondeck.baseballontario.com/page/786/oba-procedures-playing-rules/20362/bat-rules-explained
+https://ondeck.baseballontario.com/page/784/arm-care/16451/oba-pitch-count-app-user-guide

@@ -11,7 +11,7 @@
     "keywords": [
       "ondeck"
     ],
-    "updatedAt": "2026-05-07T01:29:33.668Z"
+    "updatedAt": "2026-05-07T02:18:31.739Z"
   },
   {
     "id": "ondeck:https://ondeck.baseballontario.com/page/784/arm-care/16475/arm-care-pitch-count-rules-faq",
@@ -33,7 +33,221 @@
       "784",
       "16475"
     ],
-    "updatedAt": "2026-05-07T01:29:33.716Z"
+    "updatedAt": "2026-05-07T02:18:31.793Z"
+  },
+  {
+    "id": "ondeck:https://ondeck.baseballontario.com/page/5942/rep-rule-book/20363/rep-division-playing-rules",
+    "source": "ondeck",
+    "accessType": "restricted-indexed",
+    "title": "Rep Division Playing Rules",
+    "url": "https://ondeck.baseballontario.com/page/5942/rep-rule-book/20363/rep-division-playing-rules",
+    "section": "page",
+    "snippet": "",
+    "headings": [],
+    "keywords": [
+      "rep",
+      "division",
+      "playing",
+      "rules",
+      "page",
+      "5942",
+      "rule",
+      "book",
+      "20363"
+    ],
+    "updatedAt": "2026-05-07T02:18:31.849Z"
+  },
+  {
+    "id": "ondeck:https://ondeck.baseballontario.com/page/5942/rep-rule-book/20361/rep-division-procedures",
+    "source": "ondeck",
+    "accessType": "restricted-indexed",
+    "title": "Rep Division Procedures",
+    "url": "https://ondeck.baseballontario.com/page/5942/rep-rule-book/20361/rep-division-procedures",
+    "section": "page",
+    "snippet": "",
+    "headings": [],
+    "keywords": [
+      "rep",
+      "division",
+      "procedures",
+      "page",
+      "5942",
+      "rule",
+      "book",
+      "20361"
+    ],
+    "updatedAt": "2026-05-07T02:18:31.897Z"
+  },
+  {
+    "id": "ondeck:https://ondeck.baseballontario.com/page/4324/select-rule-book/20365/select-division-playing-rules-and-provincial-tournament-rules",
+    "source": "ondeck",
+    "accessType": "restricted-indexed",
+    "title": "Select Division Playing Rules And Provincial Tournament Rules",
+    "url": "https://ondeck.baseballontario.com/page/4324/select-rule-book/20365/select-division-playing-rules-and-provincial-tournament-rules",
+    "section": "page",
+    "snippet": "",
+    "headings": [],
+    "keywords": [
+      "rules",
+      "select",
+      "division",
+      "playing",
+      "provincial",
+      "tournament",
+      "page",
+      "4324",
+      "rule",
+      "book",
+      "20365",
+      "and"
+    ],
+    "updatedAt": "2026-05-07T02:18:31.944Z"
+  },
+  {
+    "id": "ondeck:https://ondeck.baseballontario.com/page/4324/select-rule-book/20364/select-division-procedures",
+    "source": "ondeck",
+    "accessType": "restricted-indexed",
+    "title": "Select Division Procedures",
+    "url": "https://ondeck.baseballontario.com/page/4324/select-rule-book/20364/select-division-procedures",
+    "section": "page",
+    "snippet": "",
+    "headings": [],
+    "keywords": [
+      "select",
+      "division",
+      "procedures",
+      "page",
+      "4324",
+      "rule",
+      "book",
+      "20364"
+    ],
+    "updatedAt": "2026-05-07T02:18:31.990Z"
+  },
+  {
+    "id": "ondeck:https://ondeck.baseballontario.com/page/5941/oba-procedures-playing-rules/20369/oba-procedures-and-playing-rules",
+    "source": "ondeck",
+    "accessType": "restricted-indexed",
+    "title": "Oba Procedures And Playing Rules",
+    "url": "https://ondeck.baseballontario.com/page/5941/oba-procedures-playing-rules/20369/oba-procedures-and-playing-rules",
+    "section": "page",
+    "snippet": "",
+    "headings": [],
+    "keywords": [
+      "oba",
+      "procedures",
+      "playing",
+      "rules",
+      "page",
+      "5941",
+      "20369",
+      "and"
+    ],
+    "updatedAt": "2026-05-07T02:18:32.034Z"
+  },
+  {
+    "id": "ondeck:https://ondeck.baseballontario.com/page/5937/rep-division-procedures-playing-rules",
+    "source": "ondeck",
+    "accessType": "restricted-indexed",
+    "title": "Rep Division Procedures Playing Rules",
+    "url": "https://ondeck.baseballontario.com/page/5937/rep-division-procedures-playing-rules",
+    "section": "page",
+    "snippet": "",
+    "headings": [],
+    "keywords": [
+      "rep",
+      "division",
+      "procedures",
+      "playing",
+      "rules",
+      "page",
+      "5937"
+    ],
+    "updatedAt": "2026-05-07T02:18:32.081Z"
+  },
+  {
+    "id": "ondeck:https://ondeck.baseballontario.com/page/5938/select-division-procedures-playing-rules",
+    "source": "ondeck",
+    "accessType": "restricted-indexed",
+    "title": "Select Division Procedures Playing Rules",
+    "url": "https://ondeck.baseballontario.com/page/5938/select-division-procedures-playing-rules",
+    "section": "page",
+    "snippet": "",
+    "headings": [],
+    "keywords": [
+      "select",
+      "division",
+      "procedures",
+      "playing",
+      "rules",
+      "page",
+      "5938"
+    ],
+    "updatedAt": "2026-05-07T02:18:32.127Z"
+  },
+  {
+    "id": "ondeck:https://ondeck.baseballontario.com/page/3013/official-baseball-rules",
+    "source": "ondeck",
+    "accessType": "restricted-indexed",
+    "title": "Official Baseball Rules",
+    "url": "https://ondeck.baseballontario.com/page/3013/official-baseball-rules",
+    "section": "page",
+    "snippet": "",
+    "headings": [],
+    "keywords": [
+      "official",
+      "baseball",
+      "rules",
+      "page",
+      "3013"
+    ],
+    "updatedAt": "2026-05-07T02:18:32.177Z"
+  },
+  {
+    "id": "ondeck:https://ondeck.baseballontario.com/page/786/oba-procedures-playing-rules/20362/bat-rules-explained",
+    "source": "ondeck",
+    "accessType": "restricted-indexed",
+    "title": "Bat Rules Explained",
+    "url": "https://ondeck.baseballontario.com/page/786/oba-procedures-playing-rules/20362/bat-rules-explained",
+    "section": "page",
+    "snippet": "",
+    "headings": [],
+    "keywords": [
+      "bat",
+      "rules",
+      "explained",
+      "page",
+      "786",
+      "oba",
+      "procedures",
+      "playing",
+      "20362"
+    ],
+    "updatedAt": "2026-05-07T02:18:32.243Z"
+  },
+  {
+    "id": "ondeck:https://ondeck.baseballontario.com/page/784/arm-care/16451/oba-pitch-count-app-user-guide",
+    "source": "ondeck",
+    "accessType": "restricted-indexed",
+    "title": "Oba Pitch Count App User Guide",
+    "url": "https://ondeck.baseballontario.com/page/784/arm-care/16451/oba-pitch-count-app-user-guide",
+    "section": "page",
+    "snippet": "",
+    "headings": [],
+    "keywords": [
+      "oba",
+      "pitch",
+      "count",
+      "app",
+      "user",
+      "guide",
+      "page",
+      "784",
+      "arm",
+      "care",
+      "16451"
+    ],
+    "updatedAt": "2026-05-07T02:18:32.301Z"
   },
   {
     "id": "ondeck-api:countries:0",
@@ -66,6 +280,6 @@
       "antarctica",
       "atg"
     ],
-    "updatedAt": "2026-05-07T01:29:34.110Z"
+    "updatedAt": "2026-05-07T02:18:32.728Z"
   }
 ]
