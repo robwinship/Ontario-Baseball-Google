@@ -12,6 +12,7 @@ Static search UI for content indexed from:
 3. Optional local ondeck index build:
    - Copy `.env.example` to `.env`
    - Set `ONDECK_COOKIE` or `ONDECK_BEARER_TOKEN`
+   - Validate auth with `npm run auth:ondeck`
    - Run `npm run crawl:ondeck`
 4. Merge source indexes:
    - `npm run merge-indexes`
@@ -26,6 +27,8 @@ Then open `index.html` through the local server URL.
 - `.env` is gitignored.
 - `crawl:ondeck` refuses to run in CI.
 - Merge step scans for token-like patterns before writing final index.
+
+For step-by-step token/cookie capture, see `docs/ondeck-auth-setup.md`.
 
 ## GitHub Actions
 Workflow `.github/workflows/nightly-public-index.yml`:
