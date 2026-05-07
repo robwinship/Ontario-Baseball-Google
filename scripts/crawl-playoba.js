@@ -26,6 +26,10 @@ function normalizeUrl(rawUrl) {
     if (blockedExtensions.some((ext) => url.pathname.toLowerCase().endsWith(ext))) {
       return null;
     }
+    const blockedPaths = ["/photos"];
+    if (blockedPaths.some((p) => url.pathname.toLowerCase().startsWith(p))) {
+      return null;
+    }
     return url.toString();
   } catch {
     return null;
