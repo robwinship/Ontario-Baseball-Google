@@ -17,6 +17,7 @@ You can set both. The crawler will send both headers.
 
 If your copied request is `https://api.mobilecoach.org/api/auth` with a JSON body like
 `{"token":"...","appKey":"BO"}`, that is also supported by this project.
+That flow enables API discovery so the ondeck index can include more than just the SPA shell page.
 
 ## 2) Option A: Get session cookie from browser (most common)
 1. Sign into `https://ondeck.baseballontario.com` in your browser.
@@ -63,6 +64,15 @@ The importer can read all of these cURL patterns:
 - Request header `Cookie: ...`
 - Request header `Authorization: Bearer ...`
 - JSON payload token flow: `--data-raw '{"token":"...","appKey":"..."}'`
+
+## API discovery toggle
+- `ONDECK_ENABLE_API_DISCOVERY=true` (default) enriches indexing from authenticated API endpoints.
+- Set it to `false` only for debugging if you need HTML-only crawl behavior.
+
+## Manual seed URLs for SPA pages
+- Add known ondeck route URLs to `data/ondeck-seed-urls.txt` (one per line).
+- These URLs are crawled at depth 0 even when they are not discoverable via links.
+- This is useful for pages like `/page/784/arm-care/16475/arm-care-pitch-count-rules-faq`.
 
 ## 5) Crawl
 Run:

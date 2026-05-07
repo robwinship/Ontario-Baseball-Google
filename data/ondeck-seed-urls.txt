@@ -1,0 +1,3 @@
+# Optional manual seed URLs for ondeck SPA routes.
+# One URL per line. These are queued at depth 0 during crawl:ondeck.
+https://ondeck.baseballontario.com/page/784/arm-care/16475/arm-care-pitch-count-rules-faq#HowDoI
