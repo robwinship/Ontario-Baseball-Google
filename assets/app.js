@@ -50,14 +50,14 @@ function selectedSources() {
   return new Set(sourceCheckboxes.filter((box) => box.checked).map((box) => box.value));
 }
 
-function groupedBySection(documents) {
+function groupedBySource(documents) {
   const map = new Map();
   documents.forEach((doc) => {
-    const section = doc.section || "General";
-    if (!map.has(section)) {
-      map.set(section, []);
+    const source = doc.source || "unknown";
+    if (!map.has(source)) {
+      map.set(source, []);
     }
-    map.get(section).push(doc);
+    map.get(source).push(doc);
   });
   return map;
 }
@@ -113,13 +113,18 @@ function renderDocuments(documents, query) {
     return;
   }
 
-  const grouped = groupedBySection(documents);
-  for (const [section, docs] of grouped.entries()) {
+  const grouped = groupedBySource(documents);
+  for (const [source, docs] of grouped.entries()) {
     const groupEl = document.createElement("section");
     groupEl.className = "result-group";
 
     const title = document.createElement("h2");
-    title.textContent = `${section} (${docs.length})`;
+    if (query) {
+      const sourceMentions = docs.reduce((sum, doc) => sum + (doc._mentions || 0), 0);
+      title.textContent = `${sourceLabel(source)} (${docs.length} docs, ${sourceMentions} hits)`;
+    } else {
+      title.textContent = `${sourceLabel(source)} (${docs.length} docs)`;
+    }
     groupEl.appendChild(title);
 
     docs.forEach((doc) => {
@@ -166,10 +171,19 @@ function runSearch() {
     return;
   }
 
-  const searchHits = state.fuse.search(query).map((hit) => hit.item);
+  const searchHits = state.fuse.search(query).map((hit) => ({
+    ...hit.item,
+    _score: Number.isFinite(hit.score) ? hit.score : 1,
+  }));
   const filtered = searchHits
     .filter((doc) => sources.has(doc.source))
-    .map((doc) => ({ ...doc, _mentions: countMentionsInDoc(doc, query) }));
+    .map((doc) => ({ ...doc, _mentions: countMentionsInDoc(doc, query) }))
+    .sort((a, b) => {
+      if ((b._mentions || 0) !== (a._mentions || 0)) {
+        return (b._mentions || 0) - (a._mentions || 0);
+      }
+      return (a._score || 1) - (b._score || 1);
+    });
   const mentionTotal = filtered.reduce((sum, doc) => sum + (doc._mentions || 0), 0);
   updateSummary(query, filtered.length, mentionTotal);
   renderDocuments(filtered, query);
