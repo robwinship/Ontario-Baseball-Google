@@ -27,6 +27,7 @@ function normalizeDocument(doc, source) {
     url: normalizedUrl,
     section: String(doc.section || "General").trim(),
     snippet: String(doc.snippet || "").trim().slice(0, 320),
+    searchText: String(doc.searchText || "").trim().slice(0, 6000),
     headings: Array.isArray(doc.headings) ? doc.headings.slice(0, 16).map((h) => String(h)) : [],
     keywords: Array.isArray(doc.keywords) ? doc.keywords.slice(0, 30).map((k) => String(k)) : [],
     updatedAt: doc.updatedAt || null,

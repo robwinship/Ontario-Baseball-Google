@@ -37,10 +37,11 @@ async function loadSearchData() {
     threshold: 0.33,
     ignoreLocation: true,
     keys: [
-      { name: "title", weight: 0.48 },
-      { name: "keywords", weight: 0.22 },
+      { name: "title", weight: 0.38 },
+      { name: "keywords", weight: 0.2 },
       { name: "headings", weight: 0.17 },
-      { name: "snippet", weight: 0.13 },
+      { name: "snippet", weight: 0.1 },
+      { name: "searchText", weight: 0.15 },
     ],
   });
 }

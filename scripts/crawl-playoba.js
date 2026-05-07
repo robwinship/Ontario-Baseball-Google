@@ -53,7 +53,7 @@ function keywordsFromText(text) {
   }
   return [...freq.entries()]
     .sort((a, b) => b[1] - a[1])
-    .slice(0, 20)
+    .slice(0, 60)
     .map(([token]) => token);
 }
 
@@ -137,8 +137,9 @@ async function crawlPlayoba() {
       );
 
       const snippet = bodyText.slice(0, 260);
+      const searchText = bodyText.slice(0, 6000);
       const section = inferSection(url);
-      const keywords = keywordsFromText(`${title} ${headingText.join(" ")} ${snippet}`);
+      const keywords = keywordsFromText(`${title} ${headingText.join(" ")} ${searchText}`);
 
       docs.push({
         id: `playoba:${url}`,
@@ -148,6 +149,7 @@ async function crawlPlayoba() {
         url,
         section,
         snippet,
+        searchText,
         headings: headingText,
         keywords,
         updatedAt: new Date().toISOString(),
