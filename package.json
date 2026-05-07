@@ -7,6 +7,7 @@
     "crawl:playoba": "node scripts/crawl-playoba.js",
     "crawl:ondeck": "node scripts/crawl-ondeck-local.js",
     "auth:ondeck": "node scripts/validate-ondeck-auth.js",
+    "auth:import-curl": "node scripts/import-ondeck-auth-from-curl.js",
     "merge-indexes": "node scripts/merge-indexes.js",
     "build:index": "npm run merge-indexes",
     "build": "npm run build:index"

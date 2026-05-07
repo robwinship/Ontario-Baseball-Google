@@ -47,6 +47,15 @@ If invalid:
 - Confirm you are copying request headers (not response headers).
 - Confirm `ONDECK_BASE_URL` matches the signed-in domain.
 
+## Optional shortcut: import from DevTools cURL
+1. In DevTools Network, right-click an authenticated ondeck request.
+2. Click Copy -> Copy as cURL.
+3. Run:
+   - `npm run auth:import-curl`
+4. Paste the full cURL text and press Enter on an empty line.
+5. The script updates local `.env` with detected auth keys.
+6. Run `npm run auth:ondeck` to confirm validity.
+
 ## 5) Crawl
 Run:
 - `npm run crawl:ondeck`

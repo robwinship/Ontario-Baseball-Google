@@ -11,6 +11,7 @@ Static search UI for content indexed from:
    - `npm run crawl:playoba`
 3. Optional local ondeck index build:
    - Copy `.env.example` to `.env`
+   - Optional: run `npm run auth:import-curl` and paste DevTools "Copy as cURL"
    - Set `ONDECK_COOKIE` or `ONDECK_BEARER_TOKEN`
    - Validate auth with `npm run auth:ondeck`
    - Run `npm run crawl:ondeck`
