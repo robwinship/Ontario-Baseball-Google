@@ -22,6 +22,14 @@ Static search UI for content indexed from:
 4. Merge source indexes:
    - `npm run merge-indexes`
 
+## Crawl limits and finding caps
+- Search results are no longer hard-capped in the UI.
+- `searchText` is no longer truncated during crawl/merge, improving recall for long pages.
+- Crawlers default to unlimited page count when max-page env vars are unset.
+- `ONDECK_MAX_PAGES=0` and `PLAYOBA_MAX_PAGES=0` explicitly mean unlimited.
+- You can still set positive values (for example `ONDECK_MAX_PAGES=500`) when you want a temporary safety cap.
+- Depth and timeout guardrails remain enabled by default (`*_MAX_DEPTH`, rendered timeout).
+
 ## Run locally
 Use any static file server, for example:
 - `npx http-server .`

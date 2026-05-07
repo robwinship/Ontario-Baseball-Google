@@ -20,7 +20,8 @@ const BASE_URL = process.env.ONDECK_BASE_URL || "https://ondeck.baseballontario.
 const OUTPUT_PATH = path.join(rootDir, "data", "ondeck-index.json");
 const REPORT_PATH = path.join(rootDir, "data", "ondeck-report.json");
 const SEED_URLS_PATH = path.join(rootDir, "data", "ondeck-seed-urls.txt");
-const MAX_PAGES = Number(process.env.ONDECK_MAX_PAGES || 200);
+const MAX_PAGES_RAW = Number(process.env.ONDECK_MAX_PAGES);
+const MAX_PAGES = Number.isFinite(MAX_PAGES_RAW) ? (MAX_PAGES_RAW <= 0 ? Infinity : MAX_PAGES_RAW) : Infinity;
 const MAX_DEPTH = Number(process.env.ONDECK_MAX_DEPTH || 3);
 const ENABLE_API_DISCOVERY = process.env.ONDECK_ENABLE_API_DISCOVERY !== "false";
 const ENABLE_RENDERED_EXTRACTION = process.env.ONDECK_ENABLE_RENDERED_EXTRACTION !== "false";
@@ -437,7 +438,7 @@ async function crawlOndeck() {
         url,
         section,
         snippet,
-        searchText: cleanText(`${title} ${headings.join(" ")} ${bodyText} ${url}`).slice(0, 30000),
+        searchText: cleanText(`${title} ${headings.join(" ")} ${bodyText} ${url}`),
         headings,
         keywords,
         updatedAt: new Date().toISOString(),

@@ -10,7 +10,8 @@ const rootDir = path.resolve(__dirname, "..");
 const BASE_URL = "https://playoba.ca";
 const OUTPUT_PATH = path.join(rootDir, "data", "playoba-index.json");
 const REPORT_PATH = path.join(rootDir, "data", "playoba-report.json");
-const MAX_PAGES = Number(process.env.PLAYOBA_MAX_PAGES || 250);
+const MAX_PAGES_RAW = Number(process.env.PLAYOBA_MAX_PAGES);
+const MAX_PAGES = Number.isFinite(MAX_PAGES_RAW) ? (MAX_PAGES_RAW <= 0 ? Infinity : MAX_PAGES_RAW) : Infinity;
 const MAX_DEPTH = Number(process.env.PLAYOBA_MAX_DEPTH || 3);
 const USER_AGENT = "OBA-SearchBot/0.1 (+local index generator)";
 
@@ -137,7 +138,7 @@ async function crawlPlayoba() {
       );
 
       const snippet = bodyText.slice(0, 260);
-      const searchText = bodyText.slice(0, 12000);
+      const searchText = bodyText;
       const section = inferSection(url);
       const keywords = keywordsFromText(`${title} ${headingText.join(" ")} ${searchText}`);
 

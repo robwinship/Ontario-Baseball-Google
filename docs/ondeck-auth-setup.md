@@ -82,6 +82,12 @@ The importer can read all of these cURL patterns:
    - `npm run seed:add-ondeck -- "https://ondeck.baseballontario.com/page/..."`
    - The command normalizes the URL and avoids duplicates.
 
+## Page limits and uncapped findings
+- Ondeck crawling now defaults to unlimited pages when `ONDECK_MAX_PAGES` is unset.
+- `ONDECK_MAX_PAGES=0` explicitly means unlimited.
+- Set a positive number only when you want to intentionally cap a run for debugging/performance.
+- `ONDECK_MAX_DEPTH` still applies and is recommended to keep crawl scope predictable.
+
 ## 5) Crawl
 Run:
 - `npm run crawl:ondeck`

@@ -162,7 +162,7 @@ function runSearch() {
   if (!query) {
     const base = state.docs.filter((doc) => sources.has(doc.source));
     updateSummary(query, base.length, 0);
-    renderDocuments(base.slice(0, 40), query);
+    renderDocuments(base, query);
     return;
   }
 
@@ -172,7 +172,7 @@ function runSearch() {
     .map((doc) => ({ ...doc, _mentions: countMentionsInDoc(doc, query) }));
   const mentionTotal = filtered.reduce((sum, doc) => sum + (doc._mentions || 0), 0);
   updateSummary(query, filtered.length, mentionTotal);
-  renderDocuments(filtered.slice(0, 100), query);
+  renderDocuments(filtered, query);
 }
 
 function handleSigninSubmit(event) {
