@@ -1,0 +1,181 @@
+const SEARCH_INDEX_PATH = "data/search-index.json";
+const SEARCH_META_PATH = "data/search-meta.json";
+
+const state = {
+  docs: [],
+  meta: null,
+  fuse: null,
+};
+
+const resultContainer = document.getElementById("results");
+const searchSummary = document.getElementById("search-summary");
+const searchInput = document.getElementById("search-input");
+const searchForm = document.getElementById("search-form");
+const sourceCheckboxes = Array.from(document.querySelectorAll(".source-filters input[type='checkbox']"));
+const cardTemplate = document.getElementById("result-card-template");
+
+const signinForm = document.getElementById("signin-form");
+const signinStatus = document.getElementById("signin-status");
+const signinBtn = document.getElementById("signin-btn");
+
+async function loadSearchData() {
+  const [docsResponse, metaResponse] = await Promise.all([
+    fetch(SEARCH_INDEX_PATH),
+    fetch(SEARCH_META_PATH),
+  ]);
+
+  if (!docsResponse.ok || !metaResponse.ok) {
+    throw new Error("Could not load index files.");
+  }
+
+  const docs = await docsResponse.json();
+  const meta = await metaResponse.json();
+  state.docs = Array.isArray(docs) ? docs : [];
+  state.meta = meta;
+  state.fuse = new Fuse(state.docs, {
+    includeScore: true,
+    threshold: 0.33,
+    ignoreLocation: true,
+    keys: [
+      { name: "title", weight: 0.48 },
+      { name: "keywords", weight: 0.22 },
+      { name: "headings", weight: 0.17 },
+      { name: "snippet", weight: 0.13 },
+    ],
+  });
+}
+
+function selectedSources() {
+  return new Set(sourceCheckboxes.filter((box) => box.checked).map((box) => box.value));
+}
+
+function groupedBySection(documents) {
+  const map = new Map();
+  documents.forEach((doc) => {
+    const section = doc.section || "General";
+    if (!map.has(section)) {
+      map.set(section, []);
+    }
+    map.get(section).push(doc);
+  });
+  return map;
+}
+
+function sourceLabel(source) {
+  if (source === "playoba") {
+    return "playoba.ca";
+  }
+  if (source === "ondeck") {
+    return "ondeck";
+  }
+  return source || "unknown";
+}
+
+function renderDocuments(documents, query) {
+  resultContainer.innerHTML = "";
+
+  if (!documents.length) {
+    const empty = document.createElement("div");
+    empty.className = "empty-state";
+    empty.textContent = query
+      ? "No matches found for this query and source selection."
+      : "Index loaded. Enter a query to begin.";
+    resultContainer.appendChild(empty);
+    return;
+  }
+
+  const grouped = groupedBySection(documents);
+  for (const [section, docs] of grouped.entries()) {
+    const groupEl = document.createElement("section");
+    groupEl.className = "result-group";
+
+    const title = document.createElement("h2");
+    title.textContent = `${section} (${docs.length})`;
+    groupEl.appendChild(title);
+
+    docs.forEach((doc) => {
+      const fragment = cardTemplate.content.cloneNode(true);
+      const link = fragment.querySelector("a");
+      const badge = fragment.querySelector(".source-badge");
+      const snippet = fragment.querySelector(".snippet");
+      const meta = fragment.querySelector(".meta");
+
+      badge.textContent = sourceLabel(doc.source);
+      link.textContent = doc.title || doc.url;
+      link.href = doc.url;
+      snippet.textContent = doc.snippet || "No snippet available.";
+
+      const freshness = doc.updatedAt ? `Updated ${new Date(doc.updatedAt).toLocaleString()}` : "Updated time unavailable";
+      meta.textContent = `${freshness} | ${doc.url}`;
+
+      groupEl.appendChild(fragment);
+    });
+
+    resultContainer.appendChild(groupEl);
+  }
+}
+
+function updateSummary(query, count) {
+  const sourceCount = selectedSources().size;
+  const freshness = state.meta?.freshness || {};
+  const playobaFresh = freshness.playoba || "unknown";
+  const ondeckFresh = freshness.ondeck || "unknown";
+  searchSummary.textContent = query
+    ? `${count} result(s) across ${sourceCount} selected source(s). playoba indexed: ${playobaFresh}. ondeck indexed: ${ondeckFresh}.`
+    : `Loaded ${state.docs.length} indexed documents. playoba indexed: ${playobaFresh}. ondeck indexed: ${ondeckFresh}.`;
+}
+
+function runSearch() {
+  const query = searchInput.value.trim();
+  const sources = selectedSources();
+
+  if (!query) {
+    const base = state.docs.filter((doc) => sources.has(doc.source));
+    updateSummary(query, base.length);
+    renderDocuments(base.slice(0, 40), query);
+    return;
+  }
+
+  const searchHits = state.fuse.search(query).map((hit) => hit.item);
+  const filtered = searchHits.filter((doc) => sources.has(doc.source));
+  updateSummary(query, filtered.length);
+  renderDocuments(filtered.slice(0, 100), query);
+}
+
+function handleSigninSubmit(event) {
+  event.preventDefault();
+  const authEnabled = Boolean(state.meta?.authCapabilities?.ondeckBrowserAuth);
+
+  if (!authEnabled) {
+    signinStatus.textContent =
+      "Live ondeck sign-in is not enabled for this hosted version yet. Published ondeck index is still searchable.";
+    return;
+  }
+
+  signinStatus.textContent = "Sign-in flow is enabled in metadata but not yet implemented in this client build.";
+}
+
+async function bootstrap() {
+  try {
+    signinBtn.disabled = true;
+    await loadSearchData();
+    signinBtn.disabled = false;
+    runSearch();
+
+    searchForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      runSearch();
+    });
+
+    sourceCheckboxes.forEach((box) => box.addEventListener("change", runSearch));
+    signinForm.addEventListener("submit", handleSigninSubmit);
+  } catch (error) {
+    searchSummary.textContent = "Failed to load search data. Check the generated data files.";
+    const empty = document.createElement("div");
+    empty.className = "empty-state";
+    empty.textContent = error.message;
+    resultContainer.appendChild(empty);
+  }
+}
+
+bootstrap();

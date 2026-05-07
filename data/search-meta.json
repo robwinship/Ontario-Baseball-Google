@@ -1,0 +1,15 @@
+{
+  "generatedAt": "2026-05-07T00:35:03.095Z",
+  "documentCount": 10,
+  "sourceCounts": {
+    "playoba": 10,
+    "ondeck": 0
+  },
+  "freshness": {
+    "playoba": "2026-05-07T00:34:51.995Z",
+    "ondeck": null
+  },
+  "authCapabilities": {
+    "ondeckBrowserAuth": false
+  }
+}

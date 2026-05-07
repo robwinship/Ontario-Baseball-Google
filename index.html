@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OBA Search</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0"></script>
+  </head>
+  <body>
+    <main class="layout">
+      <header class="hero">
+        <p class="eyebrow">Ontario Baseball Search</p>
+        <h1>Find pages across playoba.ca and ondeck.baseballontario.com</h1>
+        <p class="hero-copy">
+          Search indexed content fast, open matches in a new tab, and filter by source.
+        </p>
+      </header>
+
+      <section class="panel signin-panel" aria-labelledby="signin-title">
+        <div>
+          <h2 id="signin-title">Ondeck Sign-In (Beta)</h2>
+          <p>
+            This page can support user sign-in only if ondeck enables browser-safe API + CORS
+            for this hosted origin.
+          </p>
+        </div>
+        <form id="signin-form" class="signin-form" autocomplete="off">
+          <label>
+            Username
+            <input id="signin-username" type="text" name="username" />
+          </label>
+          <label>
+            Password
+            <input id="signin-password" type="password" name="password" />
+          </label>
+          <button id="signin-btn" type="submit">Sign In</button>
+        </form>
+        <p id="signin-status" class="muted" aria-live="polite"></p>
+      </section>
+
+      <section class="panel search-panel" aria-labelledby="search-title">
+        <h2 id="search-title">Search</h2>
+        <form id="search-form" class="search-form">
+          <input
+            id="search-input"
+            type="search"
+            placeholder="Try: pitch count, player registration, tournament rules"
+            required
+          />
+          <button type="submit">Search</button>
+        </form>
+
+        <fieldset class="source-filters">
+          <legend>Sources</legend>
+          <label><input type="checkbox" value="playoba" checked /> playoba.ca</label>
+          <label><input type="checkbox" value="ondeck" checked /> ondeck.baseballontario.com</label>
+        </fieldset>
+
+        <p id="search-summary" class="summary" aria-live="polite"></p>
+      </section>
+
+      <section id="results" class="results" aria-live="polite"></section>
+    </main>
+
+    <template id="result-card-template">
+      <article class="result-card">
+        <header>
+          <span class="source-badge"></span>
+          <h3><a target="_blank" rel="noopener noreferrer"></a></h3>
+        </header>
+        <p class="snippet"></p>
+        <p class="meta"></p>
+      </article>
+    </template>
+
+    <script type="module" src="assets/app.js"></script>
+  </body>
+</html>

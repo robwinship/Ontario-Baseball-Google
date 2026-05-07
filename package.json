@@ -1,0 +1,17 @@
+{
+  "name": "oba-google-search",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "crawl:playoba": "node scripts/crawl-playoba.js",
+    "crawl:ondeck": "node scripts/crawl-ondeck-local.js",
+    "merge-indexes": "node scripts/merge-indexes.js",
+    "build:index": "npm run merge-indexes",
+    "build": "npm run build:index"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0",
+    "dotenv": "^16.5.0"
+  }
+}
