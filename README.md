@@ -14,6 +14,7 @@ Static search UI for content indexed from:
    - Optional: run `npm run auth:import-curl` and paste DevTools "Copy as cURL"
    - Set `ONDECK_COOKIE` or `ONDECK_BEARER_TOKEN` (or `ONDECK_MOBILECOACH_TOKEN` + `ONDECK_APP_KEY`)
    - Optional: add known route URLs to `data/ondeck-seed-urls.txt`
+   - Optional: run `npm run seed:add-ondeck -- "https://ondeck.baseballontario.com/page/..."`
    - Validate auth with `npm run auth:ondeck`
    - Run `npm run crawl:ondeck`
 4. Merge source indexes:

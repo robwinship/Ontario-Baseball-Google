@@ -73,6 +73,9 @@ The importer can read all of these cURL patterns:
 - Add known ondeck route URLs to `data/ondeck-seed-urls.txt` (one per line).
 - These URLs are crawled at depth 0 even when they are not discoverable via links.
 - This is useful for pages like `/page/784/arm-care/16475/arm-care-pitch-count-rules-faq`.
+- Quick add command:
+   - `npm run seed:add-ondeck -- "https://ondeck.baseballontario.com/page/..."`
+   - The command normalizes the URL and avoids duplicates.
 
 ## 5) Crawl
 Run:
