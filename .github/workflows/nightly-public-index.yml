@@ -1,6 +1,9 @@
 name: Nightly Public Index
 
 on:
+  push:
+    branches:
+      - main
   schedule:
     - cron: "0 5 * * *"
   workflow_dispatch:
@@ -16,6 +19,7 @@ concurrency:
 
 jobs:
   build-public-index:
+    if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -40,7 +44,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data/*.json
-          git diff --staged --quiet || git commit -m "chore: nightly public index refresh"
+          git diff --staged --quiet || git commit -m "chore: public index refresh [skip ci]"
           git push
 
       - name: Setup Pages
