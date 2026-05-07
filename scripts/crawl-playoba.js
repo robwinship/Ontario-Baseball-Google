@@ -137,7 +137,7 @@ async function crawlPlayoba() {
       );
 
       const snippet = bodyText.slice(0, 260);
-      const searchText = bodyText.slice(0, 6000);
+      const searchText = bodyText.slice(0, 12000);
       const section = inferSection(url);
       const keywords = keywordsFromText(`${title} ${headingText.join(" ")} ${searchText}`);
 

@@ -69,6 +69,11 @@ The importer can read all of these cURL patterns:
 - `ONDECK_ENABLE_API_DISCOVERY=true` (default) enriches indexing from authenticated API endpoints.
 - Set it to `false` only for debugging if you need HTML-only crawl behavior.
 
+## Rendered extraction (recommended for SPA pages)
+- `ONDECK_ENABLE_RENDERED_EXTRACTION=true` (default) uses a headless browser to extract visible text from seeded SPA routes.
+- `ONDECK_RENDERED_TIMEOUT_MS=30000` controls per-page render timeout.
+- This mode significantly improves search coverage for pages whose server HTML is only an app shell.
+
 ## Manual seed URLs for SPA pages
 - Add known ondeck route URLs to `data/ondeck-seed-urls.txt` (one per line).
 - These URLs are crawled at depth 0 even when they are not discoverable via links.

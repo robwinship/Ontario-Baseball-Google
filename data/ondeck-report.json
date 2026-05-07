@@ -1,12 +1,15 @@
 {
-  "scanned": 12,
-  "indexed": 12,
+  "scanned": 13,
+  "indexed": 13,
   "skipped": 0,
   "errors": 0,
   "apiScanned": 9,
   "apiIndexed": 1,
   "apiSkipped": 8,
   "apiErrors": 0,
-  "seedUrls": 11,
-  "timestamp": "2026-05-07T02:22:37.206Z"
+  "renderedAttempts": 12,
+  "renderedSuccess": 12,
+  "renderedErrors": 0,
+  "seedUrls": 12,
+  "timestamp": "2026-05-07T02:35:27.497Z"
 }

@@ -7,6 +7,7 @@ Static search UI for content indexed from:
 ## Quick start
 1. Install dependencies:
    - `npm install`
+   - If prompted for browser binaries, run `npx playwright install chromium`
 2. Build public index:
    - `npm run crawl:playoba`
 3. Optional local ondeck index build:
@@ -15,6 +16,7 @@ Static search UI for content indexed from:
    - Set `ONDECK_COOKIE` or `ONDECK_BEARER_TOKEN` (or `ONDECK_MOBILECOACH_TOKEN` + `ONDECK_APP_KEY`)
    - Optional: add known route URLs to `data/ondeck-seed-urls.txt`
    - Optional: run `npm run seed:add-ondeck -- "https://ondeck.baseballontario.com/page/..."`
+   - Ensure `ONDECK_ENABLE_RENDERED_EXTRACTION=true` in `.env` for SPA text extraction
    - Validate auth with `npm run auth:ondeck`
    - Run `npm run crawl:ondeck`
 4. Merge source indexes:

@@ -72,6 +72,34 @@ function sourceLabel(source) {
   return source || "unknown";
 }
 
+function escapeRegExp(value) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function countMentionsInDoc(doc, query) {
+  if (!query) {
+    return 0;
+  }
+
+  const terms = query
+    .toLowerCase()
+    .split(/\s+/)
+    .map((term) => term.trim())
+    .filter((term) => term.length >= 2);
+
+  if (!terms.length) {
+    return 0;
+  }
+
+  const haystack = `${doc.title || ""} ${doc.snippet || ""} ${doc.searchText || ""} ${(doc.keywords || []).join(" ")}`.toLowerCase();
+  let total = 0;
+  for (const term of terms) {
+    const pattern = new RegExp(escapeRegExp(term), "g");
+    total += (haystack.match(pattern) || []).length;
+  }
+  return total;
+}
+
 function renderDocuments(documents, query) {
   resultContainer.innerHTML = "";
 
@@ -107,7 +135,8 @@ function renderDocuments(documents, query) {
       snippet.textContent = doc.snippet || "No snippet available.";
 
       const freshness = doc.updatedAt ? `Updated ${new Date(doc.updatedAt).toLocaleString()}` : "Updated time unavailable";
-      meta.textContent = `${freshness} | ${doc.url}`;
+      const mentions = Number.isFinite(doc._mentions) && doc._mentions > 0 ? ` | Mentions: ${doc._mentions}` : "";
+      meta.textContent = `${freshness}${mentions} | ${doc.url}`;
 
       groupEl.appendChild(fragment);
     });
@@ -116,13 +145,13 @@ function renderDocuments(documents, query) {
   }
 }
 
-function updateSummary(query, count) {
+function updateSummary(query, count, mentions = 0) {
   const sourceCount = selectedSources().size;
   const freshness = state.meta?.freshness || {};
   const playobaFresh = freshness.playoba || "unknown";
   const ondeckFresh = freshness.ondeck || "unknown";
   searchSummary.textContent = query
-    ? `${count} result(s) across ${sourceCount} selected source(s). playoba indexed: ${playobaFresh}. ondeck indexed: ${ondeckFresh}.`
+    ? `${count} document result(s), ${mentions} mention(s), across ${sourceCount} selected source(s). playoba indexed: ${playobaFresh}. ondeck indexed: ${ondeckFresh}.`
     : `Loaded ${state.docs.length} indexed documents. playoba indexed: ${playobaFresh}. ondeck indexed: ${ondeckFresh}.`;
 }
 
@@ -132,14 +161,17 @@ function runSearch() {
 
   if (!query) {
     const base = state.docs.filter((doc) => sources.has(doc.source));
-    updateSummary(query, base.length);
+    updateSummary(query, base.length, 0);
     renderDocuments(base.slice(0, 40), query);
     return;
   }
 
   const searchHits = state.fuse.search(query).map((hit) => hit.item);
-  const filtered = searchHits.filter((doc) => sources.has(doc.source));
-  updateSummary(query, filtered.length);
+  const filtered = searchHits
+    .filter((doc) => sources.has(doc.source))
+    .map((doc) => ({ ...doc, _mentions: countMentionsInDoc(doc, query) }));
+  const mentionTotal = filtered.reduce((sum, doc) => sum + (doc._mentions || 0), 0);
+  updateSummary(query, filtered.length, mentionTotal);
   renderDocuments(filtered.slice(0, 100), query);
 }
 

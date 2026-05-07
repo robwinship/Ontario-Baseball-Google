@@ -23,6 +23,8 @@ const SEED_URLS_PATH = path.join(rootDir, "data", "ondeck-seed-urls.txt");
 const MAX_PAGES = Number(process.env.ONDECK_MAX_PAGES || 200);
 const MAX_DEPTH = Number(process.env.ONDECK_MAX_DEPTH || 3);
 const ENABLE_API_DISCOVERY = process.env.ONDECK_ENABLE_API_DISCOVERY !== "false";
+const ENABLE_RENDERED_EXTRACTION = process.env.ONDECK_ENABLE_RENDERED_EXTRACTION !== "false";
+const RENDERED_TIMEOUT_MS = Number(process.env.ONDECK_RENDERED_TIMEOUT_MS || 30000);
 const MOBILECOACH_API_BASE = process.env.ONDECK_MOBILECOACH_API_BASE || "https://api.mobilecoach.org/api";
 const MOBILECOACH_ENDPOINTS = [
   "groups",
@@ -180,6 +182,49 @@ function endpointToRoute(endpoint, record) {
   return id ? `${path}/${id}` : path;
 }
 
+async function createRenderedExtractor(headers) {
+  if (!ENABLE_RENDERED_EXTRACTION) {
+    return null;
+  }
+
+  try {
+    const { chromium } = await import("playwright");
+    const browser = await chromium.launch({ headless: true });
+    const context = await browser.newContext({
+      userAgent: headers["user-agent"] || USER_AGENT,
+      extraHTTPHeaders: {
+        ...(headers.cookie ? { cookie: headers.cookie } : {}),
+        ...(headers.authorization ? { authorization: headers.authorization } : {}),
+      },
+    });
+    const page = await context.newPage();
+
+    const close = async () => {
+      await context.close();
+      await browser.close();
+    };
+
+    const extract = async (url) => {
+      await page.goto(url, { waitUntil: "networkidle", timeout: RENDERED_TIMEOUT_MS });
+      await page.waitForTimeout(900);
+
+      return page.evaluate(() => {
+        const bodyText = (document.body?.innerText || "").replace(/\s+/g, " ").trim();
+        const headingValues = Array.from(document.querySelectorAll("h1, h2, h3"))
+          .map((el) => (el.textContent || "").replace(/\s+/g, " ").trim())
+          .filter(Boolean)
+          .slice(0, 20);
+        return { bodyText, headingValues };
+      });
+    };
+
+    return { extract, close };
+  } catch {
+    console.warn("Rendered extraction unavailable. Install Playwright dependencies to enable SPA text indexing.");
+    return null;
+  }
+}
+
 async function loadSeedUrls() {
   const seedSet = new Set();
 
@@ -295,6 +340,7 @@ async function crawlOndeck() {
   }
   const visited = new Set();
   const docs = [];
+  const rendered = await createRenderedExtractor(headers);
   const report = {
     scanned: 0,
     indexed: 0,
@@ -304,6 +350,9 @@ async function crawlOndeck() {
     apiIndexed: 0,
     apiSkipped: 0,
     apiErrors: 0,
+    renderedAttempts: 0,
+    renderedSuccess: 0,
+    renderedErrors: 0,
     seedUrls: extraSeeds.length,
     timestamp: new Date().toISOString(),
   };
@@ -350,11 +399,34 @@ async function crawlOndeck() {
           .first()
           .text()
       );
-      const bodyText = scrubSensitive(bodyTextRaw);
+      let bodyText = scrubSensitive(bodyTextRaw);
+      let headings = headingText;
+
+      const shouldUseRendered =
+        rendered &&
+        (bodyText.length < 80 || title === "Baseball Ontario - OnDeck" || headingText.length === 0) &&
+        (extraSeeds.includes(url) || url.includes("/page/"));
+
+      if (shouldUseRendered) {
+        report.renderedAttempts += 1;
+        try {
+          const renderedData = await rendered.extract(url);
+          if (renderedData?.bodyText) {
+            bodyText = scrubSensitive(cleanText(renderedData.bodyText));
+          }
+          if (Array.isArray(renderedData?.headingValues) && renderedData.headingValues.length > 0) {
+            headings = renderedData.headingValues.map((value) => cleanText(value)).filter(Boolean).slice(0, 20);
+          }
+          report.renderedSuccess += 1;
+        } catch {
+          report.renderedErrors += 1;
+        }
+      }
+
       const snippet = bodyText.slice(0, 260);
       const section = inferSection(url);
       const keywords = [
-        ...new Set([...keywordsFromText(`${title} ${headingText.join(" ")} ${snippet}`), ...keywordsFromUrl(url)]),
+        ...new Set([...keywordsFromText(`${title} ${headings.join(" ")} ${bodyText}`), ...keywordsFromUrl(url)]),
       ].slice(0, 30);
 
       docs.push({
@@ -365,8 +437,8 @@ async function crawlOndeck() {
         url,
         section,
         snippet,
-          searchText: cleanText(`${title} ${snippet} ${url}`),
-        headings: headingText,
+        searchText: cleanText(`${title} ${headings.join(" ")} ${bodyText} ${url}`).slice(0, 30000),
+        headings,
         keywords,
         updatedAt: new Date().toISOString(),
       });
@@ -388,6 +460,10 @@ async function crawlOndeck() {
 
   if (ENABLE_API_DISCOVERY) {
     await enrichFromApi(headers, docs, report);
+  }
+
+  if (rendered) {
+    await rendered.close();
   }
 
   await fs.writeFile(OUTPUT_PATH, `${JSON.stringify(docs, null, 2)}\n`, "utf8");
