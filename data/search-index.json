@@ -6179,7 +6179,7 @@
     "keywords": [
       "ondeck"
     ],
-    "updatedAt": "2026-05-11T12:48:11.565Z"
+    "updatedAt": "2026-05-11T12:58:45.352Z"
   },
   {
     "id": "ondeck:https://ondeck.baseballontario.com/page/784/arm-care/16475/arm-care-pitch-count-rules-faq",
@@ -6222,7 +6222,7 @@
       "16475",
       "faq"
     ],
-    "updatedAt": "2026-05-11T12:48:14.689Z"
+    "updatedAt": "2026-05-11T12:58:51.904Z"
   },
   {
     "id": "ondeck:https://ondeck.baseballontario.com/page/5942/rep-rule-book/20363/rep-division-playing-rules",
@@ -6267,7 +6267,7 @@
       "playing",
       "rules"
     ],
-    "updatedAt": "2026-05-11T12:48:16.910Z"
+    "updatedAt": "2026-05-11T12:58:54.372Z"
   },
   {
     "id": "ondeck:https://ondeck.baseballontario.com/page/5942/rep-rule-book/20361/rep-division-procedures",
@@ -6324,7 +6324,7 @@
       "20361",
       "procedures"
     ],
-    "updatedAt": "2026-05-11T12:48:18.982Z"
+    "updatedAt": "2026-05-11T12:58:56.393Z"
   },
   {
     "id": "ondeck:https://ondeck.baseballontario.com/page/4324/select-rule-book/20365/select-division-playing-rules-and-provincial-tournament-rules",
@@ -6370,7 +6370,7 @@
       "and",
       "provincial"
     ],
-    "updatedAt": "2026-05-11T12:48:21.031Z"
+    "updatedAt": "2026-05-11T12:58:58.624Z"
   },
   {
     "id": "ondeck:https://ondeck.baseballontario.com/page/4324/select-rule-book/20364/select-division-procedures",
@@ -6411,7 +6411,7 @@
       "book",
       "20364"
     ],
-    "updatedAt": "2026-05-11T12:48:22.986Z"
+    "updatedAt": "2026-05-11T12:59:00.535Z"
   },
   {
     "id": "ondeck:https://ondeck.baseballontario.com/page/5941/oba-procedures-playing-rules/20369/oba-procedures-and-playing-rules",
@@ -6453,7 +6453,7 @@
       "20369",
       "and"
     ],
-    "updatedAt": "2026-05-11T12:48:25.055Z"
+    "updatedAt": "2026-05-11T12:59:02.644Z"
   },
   {
     "id": "ondeck:https://ondeck.baseballontario.com/page/5937/rep-division-procedures-playing-rules",
@@ -6493,7 +6493,7 @@
       "page",
       "5937"
     ],
-    "updatedAt": "2026-05-11T12:48:27.470Z"
+    "updatedAt": "2026-05-11T12:59:05.101Z"
   },
   {
     "id": "ondeck:https://ondeck.baseballontario.com/page/5938/select-division-procedures-playing-rules",
@@ -6533,7 +6533,7 @@
       "page",
       "5938"
     ],
-    "updatedAt": "2026-05-11T12:48:29.955Z"
+    "updatedAt": "2026-05-11T12:59:07.375Z"
   },
   {
     "id": "ondeck:https://ondeck.baseballontario.com/page/3013/official-baseball-rules",
@@ -6580,7 +6580,7 @@
       "page",
       "3013"
     ],
-    "updatedAt": "2026-05-11T12:48:32.274Z"
+    "updatedAt": "2026-05-11T12:59:09.595Z"
   },
   {
     "id": "ondeck:https://ondeck.baseballontario.com/page/786/oba-procedures-playing-rules/20362/bat-rules-explained",
@@ -6619,7 +6619,7 @@
       "786",
       "20362"
     ],
-    "updatedAt": "2026-05-11T12:48:34.152Z"
+    "updatedAt": "2026-05-11T12:59:11.558Z"
   },
   {
     "id": "ondeck:https://ondeck.baseballontario.com/page/784/arm-care/16451/oba-pitch-count-app-user-guide",
@@ -6663,7 +6663,7 @@
       "user",
       "guide"
     ],
-    "updatedAt": "2026-05-11T12:48:36.354Z"
+    "updatedAt": "2026-05-11T12:59:13.710Z"
   },
   {
     "id": "ondeck:https://ondeck.baseballontario.com/page/5937/rep-division-procedures-playing-rules/20363/rep-division-playing-rules",
@@ -6707,7 +6707,7 @@
       "rules",
       "20363"
     ],
-    "updatedAt": "2026-05-11T12:48:38.478Z"
+    "updatedAt": "2026-05-11T12:59:15.768Z"
   },
   {
     "id": "ondeck-api:countries:0",
@@ -6741,6 +6741,6 @@
       "antarctica",
       "atg"
     ],
-    "updatedAt": "2026-05-11T12:48:39.002Z"
+    "updatedAt": "2026-05-11T12:59:16.288Z"
   }
 ]
