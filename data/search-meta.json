@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-10-01T05:18:29.370Z",
-  "documentCount": 145,
+  "generatedAt": "2026-10-02T10:58:18.794Z",
+  "documentCount": 146,
   "sourceCounts": {
-    "playoba": 131,
+    "playoba": 132,
     "ondeck": 14
   },
   "freshness": {
-    "playoba": "2026-10-01T05:18:08.673Z",
+    "playoba": "2026-10-02T10:58:04.467Z",
     "ondeck": "2026-05-11T12:58:45.093Z"
   },
   "authCapabilities": {
